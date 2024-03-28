@@ -6,34 +6,26 @@ const genAI = new GoogleGenerativeAI(API_KEY);
 async function sulli(diffinput) {
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-  // Cleaning function to parse the prompt and send clean JSON response
- // Cleaning function to parse the prompt and send clean JSON response
-const cleanAndSendAsJson = (prompt) => {
-  // Split the prompt into lines
-  const lines = prompt.split('\n').filter(line => line.trim() !== '');
+  const cleanAndSendAsJson = (prompt) => {
+    const lines = prompt.split("\n").filter((line) => line.trim() !== "");
 
-  // Check if the lines array is empty
-  if (lines.length === 0) {
-      return { error: 'Prompt is empty or improperly formatted' };
-  }
+    if (lines.length === 0) {
+      return { error: "Prompt is empty or improperly formatted" };
+    }
+    const userInputLine = lines[0].split(":");
+    const userInput = userInputLine.length > 1 ? userInputLine[1].trim() : "";
 
-  // Extract relevant information
-  const userInputLine = lines[0].split(':');
-  const userInput = userInputLine.length > 1 ? userInputLine[1].trim() : '';
+    const instructions = lines.slice(1, 7).map((line) => line.trim());
+    const suggestion = lines.slice(7).join(" ").trim();
 
-  const instructions = lines.slice(1, 7).map(line => line.trim());
-  const suggestion = lines.slice(7).join(' ').trim();
-
-  // Construct JSON response
-  const jsonResponse = {
+    const jsonResponse = {
       userInput,
       instructions,
-      suggestion
-  };
+      suggestion,
+    };
 
-  // Return JSON response
-  return jsonResponse;
-};
+    return jsonResponse;
+  };
 
   const prompt = `
     user input: ${diffinput}
@@ -48,8 +40,7 @@ const cleanAndSendAsJson = (prompt) => {
   const result = await model.generateContent(prompt);
   const response = await result.response;
   const text = await response.text();
-  
-  // Clean the response and send as JSON
+
   const jsonResponse = cleanAndSendAsJson(text);
   return jsonResponse;
 }

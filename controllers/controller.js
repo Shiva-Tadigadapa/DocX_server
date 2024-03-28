@@ -6,29 +6,6 @@ import { spawn } from 'child_process';
 const docker = new Docker();
 
 
-export const startContainer = (req, res) => {
-  const container = docker.getContainer(req.params.id);
-  container.start((err, data) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ message: "Container started successfully" });
-    }
-  });
-};
-
-
-export const stopContainer = (req, res) => {
-  const container = docker.getContainer(req.params.id);
-  container.stop((err, data) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ message: "Container stopped successfully" });
-    }
-  });
-};
-
 export const listRunningContainers = (docker) => {
   return new Promise((resolve, reject) => {
     docker.listContainers({ all: true, filters: { status: ['running'] } }, (err, containers) => {
@@ -47,7 +24,6 @@ export const listRunningContainers = (docker) => {
     });
   });
 };
-
 
 
 export const listExitedContainers = () => {
@@ -113,28 +89,6 @@ export const listImages = (req, res) => {
 
 
 
-export const runContainer = (req, res) => {
-  const imagename = req.body.imagename;
-  const createOptions = {
-    Image: imagename,
-    AttachStdout: true,
-    AttachStderr: true,
-    Tty: true,
-  };
-  docker.createContainer(createOptions, function (err, container) {
-    if (err) {
-      console.error("Error creating container:", err);
-      return;
-    }
-    container.start(function (err, data) {
-      if (err) {
-        console.error("Error starting container:", err);
-        return;
-      }
-      res.send({ message: "Container started successfully"});
-    });
-  });
-};
 
 
 
