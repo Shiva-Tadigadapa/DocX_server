@@ -1,4 +1,5 @@
 import Docker from "dockerode";
+import os from "os";
 
 const docker = new Docker();
 
@@ -84,3 +85,33 @@ export const runContainer = (req, res) => {
     });
   });
 };
+
+
+// cpu usage ram 
+
+export const getMachineInfo = (req, res) => {
+  const cpu = os.cpus();
+  const ram = os.totalmem();
+  const freeRam = os.freemem();
+  const cpuUsage = os.loadavg();
+  const machineInfo = {
+    cpu: cpu,
+    ram: ram,
+    freeRam: freeRam,
+    cpuUsage: cpuUsage,
+  };
+  res.json(machineInfo);
+}
+
+
+// get docker usage resources 
+
+export const getDockerInfo = (req, res) => {
+  docker.info(function (err, data) {
+    if (err) {
+      console.error("Error getting docker info:", err);
+      return;
+    }
+    res.json(data);
+  });
+}
