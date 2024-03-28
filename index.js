@@ -16,7 +16,7 @@ import router from './routes/route.js';
 app.use('/', router);
 
 const connectWithRetry = () => {
-    mongoose.connect(process.env.MONGO_URI).then(() => {
+    mongoose.connect(process.env.MONGO_URI).then(() => {                
         console.log('Connected to MongoDB 🥳');
     }).catch((err) => {
         console.error('Failed to connect to MongoDB:', err);
