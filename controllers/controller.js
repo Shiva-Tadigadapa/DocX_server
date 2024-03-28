@@ -49,6 +49,13 @@ export const listImages = (req, res) => {
     if (err) {
       res.status(500).json({ error: err.message });
     } else {
+      // send only image id name
+      images = images.map((image) => {
+        return {
+          id: image.Id,
+          name: image.RepoTags[0],
+        };
+      });
       res.json(images);
     }
   });

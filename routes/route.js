@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { startContainer, stopContainer, listContainers ,listImages} from '../controllers/controller.js';
+import { startContainer, stopContainer,runContainer, listContainers ,listImages} from '../controllers/controller.js';
 
 
 
@@ -16,5 +16,6 @@ router.get('/allContainers', listContainers);
 router.get('/allImages', listImages);
 
 
+router.post('/createContainer', runContainer)
 
 export default router;
