@@ -14,6 +14,7 @@ import {
   runContainer,
   stopContainer,
   pushImageToHub,
+  deleteContainerById
 } from "../controllers/manageController.js";
 
 
@@ -40,4 +41,6 @@ router.post("/push", pushImageToHub);
 
 router.post("/Gpt", getCommitMessage);
 
+
+router.delete('/Rmcontainers/:containerID', deleteContainerById);
 export default router;

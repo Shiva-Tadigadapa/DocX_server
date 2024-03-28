@@ -1,3 +1,7 @@
+import Docker from "dockerode";
+import os from "os";
+import { exec } from 'child_process';
+import { spawn } from 'child_process';
 
 const docker = new Docker();
 
@@ -81,5 +85,26 @@ export const startContainer = (req, res) => {
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
+
+  export const deleteContainerById = async (req, res) => {
+    try {
+      const { containerID } = req.params;
+  
+      const container = docker.getContainer(containerID);
+
+      const containerInfo = await container.inspect();
+  
+      if (containerInfo.State.Running) {
+        await container.stop();
+      }
+      await container.remove();
+  
+      res.json({ message: `Container ${containerID} deleted successfully` });
+    } catch (error) {
+      console.error('Failed to delete container:', error);
+      res.status(500).json({ error: 'Failed to delete container' });
     }
   };

@@ -13,11 +13,13 @@ export const listRunningContainers = (docker) => {
         reject(err);
       } else {
         const runningContainers = containers.map((container) => ({
-          id: container.Id,
-          name: container.Names[0].replace("/", ""),
-          image: container.Image,
-          state: container.State,
-          status: container.Status
+          ID : container.Id,
+          Names: container.Names[0].replace("/", ""),
+          Image: container.Image,
+          State: container.State,
+          Status: container.Status,
+          Created: container.Created,
+          Command: container.Command,
         }));
         resolve(runningContainers);
       }
