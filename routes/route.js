@@ -1,7 +1,5 @@
 import express from 'express';
 const router = express.Router();
-import { hello } from '../controllers/controller.js';
-
 import { startContainer, stopContainer, listContainers ,listImages} from '../controllers/controller.js';
 
 
