@@ -91,21 +91,24 @@ export const listContainers = async (req, res) => {
 
 
 export const listImages = (req, res) => {
-  docker.listImages((err, images) => {
+  docker.listImages({ all: true }, (err, images) => {
     if (err) {
       res.status(500).json({ error: err.message });
     } else {
-      // send only image id name
-      images = images.map((image) => {
-        return {
-          id: image.Id,
-          name: image.RepoTags[0],
-        };
-      });
-      res.json(images);
+      // Map and process all image details
+      const processedImages = images.map((image) => ({
+        id: image.Id.split(':')[1].substring(0, 12), // Extract first 12 characters of ID
+        repoTags: image.RepoTags,
+        size: image.Size,
+        created: new Date(image.Created * 1000), // Convert Unix timestamp to Date object
+        labels: image.Labels,
+        // Add other properties as needed
+      }));
+      res.json(processedImages);
     }
   });
 };
+
 
 // run a container from an image
 export const runContainer = (req, res) => {
