@@ -10,7 +10,7 @@ app.use(bodyParser.json()); // Parse JSON request bodies
 app.use(cors({
     origin: ['http://localhost:3000',]
 }));
-// const port = 3000;
+const port = 3000;
 import router from './routes/route.js';
 
 app.use('/', router);
