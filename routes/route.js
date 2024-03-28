@@ -3,5 +3,7 @@ const router = express.Router();
 
 
 
-// router.get('/getPrice/:ID', getPriceById);
+router.get('/' , (req, res) => {
+    res.send('Hello World');
+});
 export default router;
