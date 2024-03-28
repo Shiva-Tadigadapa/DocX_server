@@ -115,3 +115,26 @@ export const getDockerInfo = (req, res) => {
     res.json(data);
   });
 }
+
+
+// pull an image from docker hub
+export const pullImage = (req, res) => {
+  const imagename = req.body.imagename;
+  docker.pull(imagename, function (err, stream) {
+    if (err) {
+      console.error("Error pulling image:", err);
+      return;
+    }
+    docker.modem.followProgress(stream, onFinished, onProgress);
+    function onFinished(err, output) {
+      if (err) {
+        console.error("Error pulling image:", err);
+        return;
+      }
+      res.send({ message: "Image pulled successfully" });
+    }
+    function onProgress(event) {
+      console.log(event);
+    }
+  });
+}
