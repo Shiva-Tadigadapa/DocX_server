@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 
 const app = express();
-app.use(bodyParser.json()); // Parse JSON request bodies
+app.use(bodyParser.json());
 app.use(cors({
     origin: ['http://localhost:3000',]
 }));
@@ -21,7 +21,7 @@ const connectWithRetry = () => {
     }).catch((err) => {
         console.error('Failed to connect to MongoDB:', err);
         console.log('Retrying connection in 5 seconds...');
-        setTimeout(connectWithRetry, 5000); // Retry connection after 5 seconds
+        setTimeout(connectWithRetry, 5000);
     });
 };
 
