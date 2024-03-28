@@ -32,6 +32,14 @@ export const listContainers = (req, res) => {
         if (err) {
             res.status(500).json({ error: err.message });
         } else {
+          // only send the container id and name
+          containers = containers.map((container) => {
+            return {
+              id: container.Id,
+              name: container.Names[0].replace('/', ''),
+            };
+          }
+          );
             res.json(containers);
         }
     });

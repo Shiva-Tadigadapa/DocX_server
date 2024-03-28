@@ -5,14 +5,14 @@ import { startContainer, stopContainer, listContainers ,listImages} from '../con
 
 
 // Start a container
-router.post('/start/:id', startContainer);
+router.get('/start/:id', startContainer);
 
 // Stop a container
-router.post('/stop/:id', stopContainer);
+router.get('/stop/:id', stopContainer);
 
 // Get list of containers
-router.get('/', listContainers);
+router.get('/allContainers', listContainers);
 
-router.get('/', listImages);
+router.get('/allImages', listImages);
 
 export default router;
