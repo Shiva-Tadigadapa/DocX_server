@@ -1,9 +1,10 @@
 import express from 'express';
 const router = express.Router();
+import { hello } from '../controllers/controller.js';
 
 
 
-router.get('/' , (req, res) => {
-    res.send('Hello World');
-});
+router.get('/' , hello);
+
+
 export default router;

@@ -1,5 +1,3 @@
-
-
 export const hello = async (req, res) => {
   try {
     res.send("hello");
