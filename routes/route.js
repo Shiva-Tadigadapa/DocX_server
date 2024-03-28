@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { startContainer,pullImage,getMachineInfo,getDockerInfo, stopContainer,runContainer, listContainers ,listImages,getContainerStats} from '../controllers/controller.js';
+import { startContainer,pullImage,getMachineInfo,getDockerInfo, stopContainer,runContainer, listContainers ,listImages,getContainerStats,pushImageToHub} from '../controllers/controller.js';
 
 
 
@@ -27,5 +27,7 @@ router.post('/pullImage' , pullImage)
 
 
 router.get('/stats/:containerId', getContainerStats);
+
+router.post('/push', pushImageToHub);
 
 export default router;

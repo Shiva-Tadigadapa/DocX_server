@@ -1,5 +1,6 @@
 import Docker from "dockerode";
 import os from "os";
+import { exec } from 'child_process';
 
 const docker = new Docker();
 
@@ -154,3 +155,59 @@ export const getContainerStats = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+const dockerLogin = (username, password) => {
+  return new Promise((resolve, reject) => {
+      const loginCmd = `docker login -u ${username} --password-stdin`;
+
+      const loginProcess = exec(loginCmd, (err, stdout, stderr) => {
+          if (err) {
+              reject(err);
+          } else {
+              resolve();
+          }
+      });
+
+      loginProcess.stdin.write(password);
+      loginProcess.stdin.end();
+  });
+};
+
+export const pushImageToHub = async (req, res) => {
+  const { imageName, tag, username, password } = req.body;
+
+  try {
+      // Login to Docker Hub
+      await dockerLogin(username, password);
+
+      // Tag the image
+      const image = docker.getImage(imageName);
+      await image.tag({ repo: `${username}/${imageName}`, tag });
+
+      // Push the image to Docker Hub
+      const stream = await docker.getImage(`${username}/${imageName}`).push({ tag });
+
+      // Handle the stream (optional)
+      stream.setEncoding('utf8');
+      stream.on('data', (chunk) => {
+          console.log(chunk); // Output push progress if needed
+      });
+
+      stream.on('end', () => {
+          console.log('Image push complete');
+          res.status(200).json({ message: 'Image pushed to Docker Hub successfully' });
+      });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// {
+//   "imageName":"hello-world",
+//   "tag":"newImage",
+//   "username":"darthvader996",
+//   "password":"winter@LPU1000"
+// }
