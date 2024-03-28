@@ -147,8 +147,8 @@ export const getContainerStats = async (req, res) => {
 
   try {
     const container = docker.getContainer(containerId);
-    
-    const stats = await container.stats();
+    const stats = await container.stats({ stream: false });
+
     res.json(stats);
   } catch (error) {
     res.status(500).json({ error: error.message });
