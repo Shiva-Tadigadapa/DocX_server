@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const API_KEY = "AIzaSyBylb04CW-iJ-XJFfo3GM-8P9Qgz7dAuiM";
+const API_KEY = "AIzaSyBylb04CW-iJ-XJFfo3GM-8P9Qgz7dAuiM"; // Replace with your actual API key
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 async function getter(diffinput) {
@@ -41,12 +41,13 @@ async function getter(diffinput) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = await response.text();
+
+    const jsonResponse = cleanAndSendAsJson(text);
+    return jsonResponse;
   } catch (error) {
-    logger.error(`Error in  getter function: ${error.message}`);
+    console.error(`Error in getter function: ${error.message}`);
     return { error: "An error occurred while processing the request" };
   }
-  const jsonResponse = cleanAndSendAsJson(text);
-  return jsonResponse;
 }
 
 export const getCommitMessage = async (req, res) => {
