@@ -1,0 +1,3 @@
+{"level":"error","message":"Error starting container 53b12a344103: (HTTP code 304) container already started -  ","timestamp":"2024-03-29T00:35:16.472Z"}
+{"level":"info","message":"Container 53b12a344103 started successfully","timestamp":"2024-03-29T00:35:59.436Z"}
+{"level":"info","message":"Container 53b12a344103 stopped successfully","timestamp":"2024-03-29T00:38:11.534Z"}
