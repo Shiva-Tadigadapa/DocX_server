@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const API_KEY = "AIzaSyBylb04CW-iJ-XJFfo3GM-8P9Qgz7dAuiM";
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-async function sulli(diffinput) {
+async function getter(diffinput) {
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
   const cleanAndSendAsJson = (prompt) => {
@@ -37,16 +37,23 @@ async function sulli(diffinput) {
     and remember to give me always in the json only.
   `;
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = await response.text();
-
+  try {
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = await response.text();
+  } catch (error) {
+    logger.error(`Error in  getter function: ${error.message}`);
+    return { error: "An error occurred while processing the request" };
+  }
   const jsonResponse = cleanAndSendAsJson(text);
   return jsonResponse;
 }
 
 export const getCommitMessage = async (req, res) => {
   const { diffinput } = req.body;
-  const cleanResponse = await sulli(diffinput);
+  if (!diffinput) {
+    return res.status(400).json({ error: "Missing 'diffinput' parameter" });
+  }
+  const cleanResponse = await getter(diffinput);
   res.json(cleanResponse);
 };
