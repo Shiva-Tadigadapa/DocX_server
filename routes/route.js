@@ -14,7 +14,10 @@ import {
   runContainer,
   stopContainer,
   pushImageToHub,
-  deleteContainerById
+  deleteContainerById,
+  openDocker,
+  ChatCmds,
+  searchResults
 } from "../controllers/manageController.js";
 
 
@@ -43,5 +46,11 @@ router.post("/Gpt", getCommitMessage);
 
 
 router.delete('/Rmcontainers/:containerID', deleteContainerById);
+
+router.post('/open-docker', openDocker);
+
+router.post('/chatbot', ChatCmds);
+
+router.get('/search',searchResults);
 
 export default router;
