@@ -153,3 +153,8 @@
 {"level":"error","message":"Docker push error: Command failed: docker push darthvader996/undefined:latest\nAn image does not exist locally with the tag: darthvader996/undefined\n","timestamp":"2024-03-29T08:23:20.473Z"}
 {"level":"error","message":"Docker push error: Command failed: docker push darthvader996/test:latest\nAn image does not exist locally with the tag: darthvader996/test\n","timestamp":"2024-03-29T08:24:44.876Z"}
 {"level":"error","message":"Docker push error: Command failed: docker push darthvader996/test:latest\nAn image does not exist locally with the tag: darthvader996/test\n","timestamp":"2024-03-29T08:25:11.497Z"}
+{"level":"error","message":"Docker push error: Command failed: docker push darthvader996/hello-world:yowai\ntag does not exist: darthvader996/hello-world:yowai\n","timestamp":"2024-03-29T08:38:00.819Z"}
+{"level":"error","message":"Docker push error: Command failed: docker push darthvader996/hello-world:yowai\ntag does not exist: darthvader996/hello-world:yowai\n","timestamp":"2024-03-29T08:41:26.319Z"}
+{"level":"info","message":"Pushing image to Docker Hub: darthvader996/busybox:yo","timestamp":"2024-03-29T09:05:57.739Z"}
+{"level":"info","message":"Tagging image: busybox as darthvader996/busybox:yo","timestamp":"2024-03-29T09:05:57.742Z"}
+{"level":"info","message":"Image pushed to Docker Hub successfully: darthvader996/busybox:yo","timestamp":"2024-03-29T09:06:09.664Z"}
