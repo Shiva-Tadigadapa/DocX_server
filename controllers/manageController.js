@@ -133,10 +133,8 @@ export const deleteContainerById = async (req, res) => {
 };
 
 
-// import { exec } from 'child_process';
 
 export const openDocker = (req, res) => {
-  // Use 'start' instead of 'open' for Windows
   const openDocker = () => {
     const command = process.platform === 'win32' ? 'start Docker' : 'open -a Docker';
   
@@ -150,55 +148,39 @@ export const openDocker = (req, res) => {
     });
   };
   
-  // Call the function to open Docker
   openDocker();
 };
-// Function to process the prompt and extract action and image name
 export const processPrompt = (prompt) => {
-  // Check if the prompt is not undefined
   if (typeof prompt !== 'undefined') {
-    // Split the prompt into words
     const words = prompt.split(' ');
-
-    // Take the first and last words from the prompt
     const action = words[0];
     const imageName = words[words.length - 1];
     console.log(imageName+"fhdb");
-
-    // Check if both action and image name are provided
     if (action && imageName) {
       return { action, imageName };
     }
   }
-
-  // If prompt is undefined or action/image name is not found, return null
   return null;
 };
 
 export const ChatCmds = (req, res) => {
-  // Extract prompt from request body
   const { prompt } = req.body;
 
-  // Process the prompt to get action, image name or ID
   const processedPrompt = processPrompt(prompt);
 
-  // Check if prompt is valid
   if (!processedPrompt) {
     return res.status(400).json({ error: 'Invalid prompt: Action or image name/ID not provided' });
   }
 
-  // Extract action, image name or ID from processed prompt
+
   const { action, imageName } = processedPrompt;
 
-  // Execute Docker command based on the action
   switch (action) {
     case 'run':
-      // Run the Docker container in detached mode with the specified image name
       spawn('docker', ['run', '-d', imageName, 'sleep', 'infinity'], { stdio: 'inherit' });
       return res.status(200).json({ message: `Docker container for '${imageName}' started successfully` });
 
     case 'stop':
-      // Stop the Docker container with the specified container ID
       const stopProcess = spawn('docker', ['stop', imageName], { stdio: 'inherit' });
 
       stopProcess.on('exit', (code) => {
@@ -211,7 +193,7 @@ export const ChatCmds = (req, res) => {
       break;
 
     case 'push':
-      // Push the Docker image with the specified image name or ID
+
       const pushProcess = spawn('docker', ['push', imageName], { stdio: 'inherit' });
 
       pushProcess.on('exit', (code) => {
@@ -224,7 +206,6 @@ export const ChatCmds = (req, res) => {
       break;
 
     case 'pull':
-      // Pull the Docker image with the specified image name or ID
       const pullProcess = spawn('docker', ['pull', imageName], { stdio: 'inherit' });
 
       pullProcess.on('exit', (code) => {
@@ -266,7 +247,6 @@ export const getDockerInfo = (req, res) => {
 }
 
 export const searchResults = (req, res) => {
-  //ivae this api  https://hub.docker.com/v2/search/repositories?query=ubuntu&page_size=10
   const { query } = req.body;
   const url = `https://hub.docker.com/v2/search/repositories?query=${query}`;
   fetch(url)
