@@ -21,6 +21,7 @@ export const listRunningContainers = (docker) => {
             State: container.State,
             Status: container.Status,
             Created: container.Created,
+            
             Command: container.Command,
           }));
           resolve(runningContainers);
